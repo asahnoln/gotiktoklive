@@ -114,8 +114,8 @@ func (t *TikTok) sendRequest(o *reqOptions) (body []byte, err error) {
 	}
 
 	headers := map[string]string{
-		// "Connection":      "keep-alive",
-		"Connection":      "close",
+		"Connection": "keep-alive",
+		// "Connection":      "close",
 		"Cache-Control":   "max-age=0",
 		"User-Agent":      ua,
 		"Accept":          "text/html,application/json,application/protobuf",

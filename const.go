@@ -29,7 +29,7 @@ const (
 	urlSignReq  = "webcast/sign_url/"
 
 	// Default Request Headers
-	userAgent = "5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36"
+	userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36"
 	referer   = "https://www.tiktok.com/"
 	origin    = "https://www.tiktok.com"
 	clientId  = "ttlive-golang"
@@ -45,19 +45,18 @@ var (
 		"browser_name":        "Mozilla",
 		"browser_online":      "true",
 		"browser_platform":    "Win32",
-		"browser_version":     "5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36",
+		"browser_version":     "5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36",
 		"cookie_enabled":      "true",
 		"cursor":              "",
 		"internal_ext":        "",
 		"device_platform":     "web",
 		"focus_state":         "true",
 		"from_page":           "user",
-		"history_len":         "4",
+		"history_len":         "0",
 		"is_fullscreen":       "false",
 		"is_page_visible":     "true",
 		"did_rule":            "3",
 		"fetch_rule":          "1",
-		"identity":            "audience",
 		"last_rtt":            "0",
 		"live_id":             "12",
 		"resp_content_type":   "protobuf",
@@ -66,7 +65,7 @@ var (
 		"tz_name":             "Europe/Berlin",
 		"referer":             "https://www.tiktok.com/",
 		"root_referer":        "https://www.tiktok.com/",
-		"version_code":        "180800",
+		"host":                "https://webcast.tiktok.com",
 		"webcast_sdk_version": "1.3.0",
 		"update_version_code": "1.3.0",
 	}

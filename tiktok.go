@@ -38,7 +38,7 @@ type TikTok struct {
 }
 
 // NewTikTok creates a tiktok instance that allows you to track live streams and
-//  discover current livestreams.
+// discover current livestreams.
 func NewTikTok() *TikTok {
 	jar, _ := cookiejar.New(nil)
 	wg := sync.WaitGroup{}
@@ -80,7 +80,7 @@ func NewTikTok() *TikTok {
 }
 
 // GetUserInfo will fetch information about the user, such as follwers stats,
-//  their user ID, as well as the RoomID, with which you can tell if they are live.
+// their user ID, as well as the RoomID, with which you can tell if they are live.
 func (t *TikTok) GetUserInfo(user string) (*UserInfo, error) {
 	body, err := t.sendRequest(&reqOptions{
 		Endpoint: fmt.Sprintf(urlUser, user),
@@ -89,10 +89,6 @@ func (t *TikTok) GetUserInfo(user string) (*UserInfo, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	// if len(matches) != 0 {
-	// 	return nil, ErrCaptcha
-	// }
 
 	// Find json data in HTML page
 	var matches [][]byte
@@ -103,47 +99,39 @@ func (t *TikTok) GetUserInfo(user string) (*UserInfo, error) {
 		}
 	}
 	if len(matches) == 0 {
-		return nil, ErrIPBlocked
+		return nil, ErrJSONNotFound
 	}
 
 	// Parse json data
 	var res struct {
-		UserModule struct {
-			Users map[string]*UserInfo `json:"users"`
-			Stats map[string]UserStats `json:"stats"`
-		} `json:"UserModule"`
+		DefaultScope struct {
+			UserDetail struct {
+				UserInfo struct {
+					User  *UserInfo `json:"user"`
+					Stats UserStats `json:"stats"`
+				} `json:"userInfo"`
+			} `json:"webapp.user-detail"`
+		} `json:"__DEFAULT_SCOPE__"`
 	}
 	if err := json.Unmarshal(matches[1], &res); err != nil {
 		return nil, err
 	}
 
-	if len(res.UserModule.Users) == 0 {
+	if res.DefaultScope.UserDetail.UserInfo.User == nil {
 		return nil, ErrUserNotFound
 	}
 
-	if res.UserModule.Users == nil {
-		return nil, ErrUserInfoNotFound
-	}
-
-	userInfo, ok := res.UserModule.Users[user]
-	if !ok {
-		return nil, ErrUserInfoNotFound
-	}
-
-	if res.UserModule.Stats == nil {
-		stats, ok := res.UserModule.Stats[user]
-		if ok {
-			userInfo.Stats = stats
-		}
-	}
+	userInfo := res.DefaultScope.UserDetail.UserInfo.User
+	userInfo.Stats = res.DefaultScope.UserDetail.UserInfo.Stats
 
 	return userInfo, nil
 }
 
 // GetPriceList fetches the price list of tiktok coins. Prices will be given in
-//  USD cents and the cents equivalent of the local currency of the IP location.
+// USD cents and the cents equivalent of the local currency of the IP location.
+//
 // To fetch a different currency, use a VPN or proxy to change your IP to a
-//  different country.
+// different country.
 func (t *TikTok) GetPriceList() (*PriceList, error) {
 	body, err := t.sendRequest(&reqOptions{
 		Endpoint: urlPriceList,
@@ -179,7 +167,8 @@ func (t *TikTok) SetErrorHandler(f func(...interface{})) {
 
 // SetProxy will set a proxy for both the http client as well as the websocket.
 // You can manually set a proxy with this method, or by using the HTTPS_PROXY
-//  environment variable.
+// environment variable.
+//
 // ALL_PROXY can be used to set a proxy only for the websocket.
 func (t *TikTok) SetProxy(url string, insecure bool) error {
 	uri, err := neturl.Parse(url)

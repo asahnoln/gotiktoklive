@@ -66,8 +66,7 @@ var (
 		"update_version_code": "1.3.0",
 	}
 	reJsonData = []*regexp.Regexp{
-		regexp.MustCompile(`<script id="SIGI_STATE"[^>]+>(.*?)</script>`),
-		regexp.MustCompile(`<script id="sigi-persisted-data">window\['SIGI_STATE'\]=(.*);w`),
+		regexp.MustCompile(`<script id="__UNIVERSAL_DATA_FOR_REHYDRATION__"[^>]+>(.*?)</script>`),
 	}
 	reVerify = regexp.MustCompile(`tiktok-verify-page`)
 )
@@ -75,6 +74,7 @@ var (
 var (
 	ErrUserOffline       = errors.New("user might be offline, Room ID not found")
 	ErrIPBlocked         = errors.New("your IP or country might be blocked by TikTok")
+	ErrJSONNotFound      = errors.New("unable to find required json data in HTML page")
 	ErrLiveHasEnded      = errors.New("livestream has ended")
 	ErrMsgNotImplemented = errors.New("message protobuf type has not been implemented, please report")
 	ErrNoMoreFeedItems   = errors.New("no more feed items available")

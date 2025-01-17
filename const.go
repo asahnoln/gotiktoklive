@@ -9,7 +9,12 @@ const (
 	// Base URL
 	tiktokBaseUrl = "https://www.tiktok.com/"
 	tiktokAPIUrl  = "https://webcast.tiktok.com/webcast/"
-	tiktokSigner  = "https://tiktok.isaackogan.com/"
+	// TODO: Use fallback signer as well
+	// signProviderHost: 'https://tiktok.eulerstream.com/',
+	// signProviderFallbackHosts: ['https://tiktok-sign.zerody.one/'],
+	tiktokSigner = "https://tiktok.eulerstream.com/"
+	// Seems not to work?
+	// tiktokSigner = "https://tiktok-sign.zerody.one/"
 
 	// Endpoints
 	urlLive      = "live/"
